@@ -1,0 +1,6 @@
+{
+    "recipients": "C:\\Users\\apetrov010\\Documents\\UiPath\\UiDemo\\DemoRobot\\Recipients\\Recipients.xlsx",
+    "hireForm": "C:\\Users\\apetrov010\\Documents\\UiPath\\UiDemo\\DemoRobot\\Recipients\\New Hire Form_unprotected.xlsx",
+    "mailCred": "mailCredential",
+    "allFulfilledFormsFile": "C:\\Users\\apetrov010\\Documents\\UiPath\\UiDemo\\DemoRobot\\AllFulfilledHireForms\\AllFulfilledForms.xlsx"
+}

@@ -1,0 +1,740 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="ReadFileUserSendToUs"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:sd="clr-namespace:System.Data;assembly=System.Data"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="RecipientDT" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="FileFulfilled" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="MailUsename" Type="InArgument(x:String)" />
+    <x:Property Name="MailPassword" Type="InArgument(x:String)" />
+    <x:Property Name="DT_WithAllRecipients" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="RecipientsFilePath" Type="InArgument(x:String)" />
+    <x:Property Name="HireFormPath" Type="InArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>ReadFileUserSendToUs_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Plugin.Workflow</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Global" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Default="ReadFileUserSendToUs" Name="compName" />
+      <Variable x:TypeArguments="x:String" Name="pathFolder" />
+      <Variable x:TypeArguments="x:Boolean" Name="folderExist" />
+      <Variable x:TypeArguments="x:String" Name="filePath" />
+      <Variable x:TypeArguments="sd:DataTable" Name="fillInDT" />
+      <Variable x:TypeArguments="x:String" Name="obligatory" />
+      <Variable x:TypeArguments="ui:GenericValue" Name="obligatory1" />
+      <Variable x:TypeArguments="sd:DataTable" Default="[new DataTable]" Name="dT_obligatory_emptyFields" />
+      <Variable x:TypeArguments="x:String" Name="textSendToUser" />
+      <Variable x:TypeArguments="ui:GenericValue" Name="mainFieldToBeFill" />
+      <Variable x:TypeArguments="sd:DataRow" Name="deleteRow" />
+      <Variable x:TypeArguments="x:String" Name="status" />
+      <Variable x:TypeArguments="x:String" Name="recipientEmail" />
+      <Variable x:TypeArguments="x:String" Name="indexOfAColumn" />
+      <Variable x:TypeArguments="x:String" Name="indexOfARow" />
+      <Variable x:TypeArguments="x:Boolean" Name="fileExist" />
+    </Sequence.Variables>
+    <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Start: &quot; + compName]" />
+    <ui:Comment sap2010:WorkflowViewState.IdRef="Comment_1" Text="// Read file user send to us. If he fill in required fields then we done, if he something missing we send to him that he missing some of the fields" />
+    <Sequence DisplayName="Main" sap2010:WorkflowViewState.IdRef="Sequence_2">
+      <Assign DisplayName="Assign: FileFulfilled = false" sap2010:WorkflowViewState.IdRef="Assign_9">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:Boolean">[FileFulfilled]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+        </Assign.Value>
+      </Assign>
+      <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[RecipientDT]" DisplayName="For Each Row" sap2010:WorkflowViewState.IdRef="ForEachRow_3">
+        <ui:ForEachRow.Body>
+          <ActivityAction x:TypeArguments="sd:DataRow">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_20">
+              <ui:GetRowItem Column="{x:Null}" ColumnIndex="{x:Null}" ColumnName="Status" DisplayName="Get Row Item: Status" sap2010:WorkflowViewState.IdRef="GetRowItem_3" Row="[row]">
+                <ui:GetRowItem.Value>
+                  <OutArgument x:TypeArguments="x:String">[status]</OutArgument>
+                </ui:GetRowItem.Value>
+              </ui:GetRowItem>
+              <If Condition="[status = &quot;Received&quot;]" sap2010:WorkflowViewState.IdRef="If_6">
+                <If.Then>
+                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_21">
+                    <ui:GetRowItem Column="{x:Null}" ColumnIndex="{x:Null}" ColumnName="Email" DisplayName="Get Row Item: Email" sap2010:WorkflowViewState.IdRef="GetRowItem_4" Row="[row]">
+                      <ui:GetRowItem.Value>
+                        <OutArgument x:TypeArguments="x:String">[recipientEmail]</OutArgument>
+                      </ui:GetRowItem.Value>
+                    </ui:GetRowItem>
+                    <WriteLine DisplayName="Write Line" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="[Path.Combine(Environment.CurrentDirectory, &quot;Attachments&quot;, recipientEmail)]" />
+                    <TryCatch DisplayName="Try Catch: filePath exist" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                      <TryCatch.Try>
+                        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_27">
+                          <Assign DisplayName="Assign pathFolder" sap2010:WorkflowViewState.IdRef="Assign_1">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:String">[pathFolder]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:String">[Path.Combine(Environment.CurrentDirectory, "Attachments", recipientEmail)]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                          <Assign DisplayName="Assign filePath" sap2010:WorkflowViewState.IdRef="Assign_2">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:String">[filePath]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:String">[Directory.GetFiles(pathFolder)(0)]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                          <ui:PathExists DisplayName="Path Exists" Exists="[fileExist]" sap2010:WorkflowViewState.IdRef="PathExists_2" Path="[filePath]" PathType="File" />
+                          <If Condition="[fileExist]" DisplayName="If: filePath exist?" sap2010:WorkflowViewState.IdRef="If_8">
+                            <If.Else>
+                              <Throw DisplayName="Throw AE" Exception="[new Exception(compName + &quot;| filePath are not Exist&quot;)]" sap2010:WorkflowViewState.IdRef="Throw_2" />
+                            </If.Else>
+                          </If>
+                        </Sequence>
+                      </TryCatch.Try>
+                      <TryCatch.Catches>
+                        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                          <ActivityAction x:TypeArguments="s:Exception">
+                            <ActivityAction.Argument>
+                              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                            </ActivityAction.Argument>
+                            <Sequence sap2010:WorkflowViewState.IdRef="Sequence_26">
+                              <Sequence DisplayName="Sequence for change Status in the excel and in the RecipientDT, DT_WithAllRecipients" sap2010:WorkflowViewState.IdRef="Sequence_25">
+                                <ui:SendMail Bcc="{x:Null}" Cc="{x:Null}" From="{x:Null}" MailMessage="{x:Null}" TimeoutMS="{x:Null}" Body="We are sorry for the letter, but due to the technical reason please send us fulFilled Hire Form again. We sended you a sample of the form as well. Just in case if you forgot, how it look likes." DisplayName="Send SMTP Mail Message" Email="[MailUsename]" EnableSSL="True" sap2010:WorkflowViewState.IdRef="SendMail_4" IsBodyHtml="False" Name="HR Manager Robot" Password="[MailPassword]" Port="587" SecureConnection="Auto" Server="smtp.gmail.com" Subject="Hire Form" To="[recipientEmail]">
+                                  <ui:SendMail.Files>
+                                    <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4">
+                                      <InArgument x:TypeArguments="x:String">[HireFormPath]</InArgument>
+                                    </scg:List>
+                                  </ui:SendMail.Files>
+                                </ui:SendMail>
+                                <Assign DisplayName="Assign testVariable" sap2010:WorkflowViewState.IdRef="Assign_23">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:String">[indexOfAColumn]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:String">[Convert.ToChar(65+DT_WithAllRecipients.Columns.IndexOf("Status") ).ToString]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <Assign DisplayName="Assign testVariableIndex" sap2010:WorkflowViewState.IdRef="Assign_24">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:String">[indexOfARow]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:String">[(DT_WithAllRecipients.Rows.IndexOf(DT_WithAllRecipients.Select("Email =" + "'" + recipientEmail + "'")(0)) + 2).ToString]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <WriteLine DisplayName="Write Line" sap2010:WorkflowViewState.IdRef="WriteLine_14" Text="[indexOfARow]" />
+                                <ui:WriteCell Cell="[indexOfAColumn + indexOfARow]" DisplayName="Write Cell: To the Recipient.xlsx" sap2010:WorkflowViewState.IdRef="WriteCell_3" SheetName="Sheet1" Text="Sended" WorkbookPath="[RecipientsFilePath]" />
+                                <Assign DisplayName="Assign: To the RecipientDT Status = Sender" sap2010:WorkflowViewState.IdRef="Assign_25">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:Object">[row.Item("Status")]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:Object">["Sended"]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <Assign DisplayName="Assign: To The DT_WithAllRecipients" sap2010:WorkflowViewState.IdRef="Assign_26">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:Object">[DT_WithAllRecipients.Rows(Convert.ToInt32(indexOfARow) - 2).Item("Status")]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:Object">["Sended"]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <ui:Continue sap2010:WorkflowViewState.IdRef="Continue_1" />
+                              </Sequence>
+                            </Sequence>
+                          </ActivityAction>
+                        </Catch>
+                      </TryCatch.Catches>
+                    </TryCatch>
+                    <ui:BuildDataTable DataTable="[dT_obligatory_emptyFields]" DisplayName="Build Data Table" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;ColumnName&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;NeedToBeField&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;Obligatory&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" />
+                    <WriteLine DisplayName="Write Line" sap2010:WorkflowViewState.IdRef="WriteLine_6" Text="[filePath]" />
+                    <TryCatch DisplayName="Try Catch: fillInDT is not empty" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+                      <TryCatch.Try>
+                        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_29">
+                          <ui:ReadRange AddHeaders="True" DataTable="[fillInDT]" DisplayName="Read Range: filePath" sap2010:WorkflowViewState.IdRef="ReadRange_1" SheetName="Please FILL IN" WorkbookPath="[filePath]">
+                            <ui:ReadRange.Range>
+                              <InArgument x:TypeArguments="x:String">
+                                <Literal x:TypeArguments="x:String" Value="" />
+                              </InArgument>
+                            </ui:ReadRange.Range>
+                          </ui:ReadRange>
+                          <If Condition="[fillInDT.Rows.Count &gt; 0]" DisplayName="If: fillInDt is not empty" sap2010:WorkflowViewState.IdRef="If_5">
+                            <If.Else>
+                              <Throw DisplayName="Throw AE" Exception="[new Exception(compName + &quot;| Sheet of the file need to be fill in is empty or sheet does not exists&quot;)]" sap2010:WorkflowViewState.IdRef="Throw_3" />
+                            </If.Else>
+                          </If>
+                        </Sequence>
+                      </TryCatch.Try>
+                      <TryCatch.Catches>
+                        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_2">
+                          <ActivityAction x:TypeArguments="s:Exception">
+                            <ActivityAction.Argument>
+                              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                            </ActivityAction.Argument>
+                            <Sequence DisplayName="Sequence for change Status in the excel and in the RecipientDT, DT_WithAllRecipients" sap2010:WorkflowViewState.IdRef="Sequence_28">
+                              <ui:Delete ContinueOnError="{x:Null}" DisplayName="Delete file form folder &quot;Attachment&quot;" sap2010:WorkflowViewState.IdRef="Delete_2" Path="[filePath]" />
+                              <ui:SendMail Bcc="{x:Null}" Cc="{x:Null}" From="{x:Null}" MailMessage="{x:Null}" TimeoutMS="{x:Null}" Body="The file you have send to us is empty or it's just a wrong file. We send you a new one. So please be careful and fill the form." DisplayName="Send SMTP Mail Message" Email="[MailUsename]" EnableSSL="True" sap2010:WorkflowViewState.IdRef="SendMail_5" IsBodyHtml="False" Name="HR Manager Robot" Password="[MailPassword]" Port="587" SecureConnection="Auto" Server="smtp.gmail.com" Subject="Hire Form" To="[recipientEmail]">
+                                <ui:SendMail.Files>
+                                  <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4">
+                                    <InArgument x:TypeArguments="x:String">[HireFormPath]</InArgument>
+                                  </scg:List>
+                                </ui:SendMail.Files>
+                              </ui:SendMail>
+                              <Assign DisplayName="Assign testVariable" sap2010:WorkflowViewState.IdRef="Assign_27">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:String">[indexOfAColumn]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:String">[Convert.ToChar(65+DT_WithAllRecipients.Columns.IndexOf("Status") ).ToString]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="Assign testVariableIndex" sap2010:WorkflowViewState.IdRef="Assign_28">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:String">[indexOfARow]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:String">[(DT_WithAllRecipients.Rows.IndexOf(DT_WithAllRecipients.Select("Email =" + "'" + recipientEmail + "'")(0)) + 2).ToString]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <ui:WriteCell Cell="[indexOfAColumn + indexOfARow]" DisplayName="Write Cell: To the Recipient.xlsx" sap2010:WorkflowViewState.IdRef="WriteCell_4" SheetName="Sheet1" Text="Sended" WorkbookPath="[RecipientsFilePath]" />
+                              <Assign DisplayName="Assign: To the RecipientDT Status = Sender" sap2010:WorkflowViewState.IdRef="Assign_29">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Object">[row.Item("Status")]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Object">["Sended"]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="Assign: To The DT_WithAllRecipients" sap2010:WorkflowViewState.IdRef="Assign_30">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Object">[DT_WithAllRecipients.Rows(Convert.ToInt32(indexOfARow) - 2).Item("Status")]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Object">["Sended"]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <ui:Continue sap2010:WorkflowViewState.IdRef="Continue_2" />
+                            </Sequence>
+                          </ActivityAction>
+                        </Catch>
+                      </TryCatch.Catches>
+                    </TryCatch>
+                    <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[fillInDT]" DisplayName="For Each Row: fillDT" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+                      <ui:ForEachRow.Body>
+                        <ActivityAction x:TypeArguments="sd:DataRow">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                          </ActivityAction.Argument>
+                          <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                            <ui:GetRowItem Column="{x:Null}" ColumnName="{x:Null}" ColumnIndex="2" DisplayName="Get Row Item: obligatory colom" sap2010:WorkflowViewState.IdRef="GetRowItem_1" Row="[row]">
+                              <ui:GetRowItem.Value>
+                                <OutArgument x:TypeArguments="ui:GenericValue">[obligatory1]</OutArgument>
+                              </ui:GetRowItem.Value>
+                            </ui:GetRowItem>
+                            <Assign DisplayName="Assign: mainFieldToBeFill" sap2010:WorkflowViewState.IdRef="Assign_5">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="ui:GenericValue">[mainFieldToBeFill]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="ui:GenericValue">[row(1).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <If Condition="[obligatory1 = &quot;Obligatory&quot; AND mainFieldToBeFill = &quot;&quot;]" DisplayName="If: column = Obligatory and mainFieldToBeField = &quot;&quot;" sap2010:WorkflowViewState.IdRef="If_2">
+                              <If.Then>
+                                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_7">
+                                  <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[row.ItemArray]" DataTable="[dT_obligatory_emptyFields]" DisplayName="Add Data Row to dt_obligatory" sap2010:WorkflowViewState.IdRef="AddDataRow_2" />
+                                </Sequence>
+                              </If.Then>
+                            </If>
+                          </Sequence>
+                        </ActivityAction>
+                      </ui:ForEachRow.Body>
+                    </ui:ForEachRow>
+                    <ui:CommentOut DisplayName="Comment Out" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+                      <ui:CommentOut.Body>
+                        <Sequence DisplayName="Ignored Activities" sap2010:WorkflowViewState.IdRef="Sequence_30">
+                          <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope: filePath" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" Visible="False" WorkbookPath="[filePath]">
+                            <ui:ExcelApplicationScope.Body>
+                              <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+                                <ActivityAction.Argument>
+                                  <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+                                </ActivityAction.Argument>
+                                <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                                  <ui:ExcelReadRange AddHeaders="True" DataTable="[fillInDT]" DisplayName="Read Range: Read sheet of the recieved file" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" SheetName="Please FILL IN">
+                                    <ui:ExcelReadRange.Range>
+                                      <InArgument x:TypeArguments="x:String">
+                                        <Literal x:TypeArguments="x:String" Value="" />
+                                      </InArgument>
+                                    </ui:ExcelReadRange.Range>
+                                  </ui:ExcelReadRange>
+                                </Sequence>
+                              </ActivityAction>
+                            </ui:ExcelApplicationScope.Body>
+                          </ui:ExcelApplicationScope>
+                        </Sequence>
+                      </ui:CommentOut.Body>
+                    </ui:CommentOut>
+                    <If Condition="[dT_obligatory_emptyFields.Rows.Count &gt; 0]" DisplayName="If: needed to fill rows &gt; 0" sap2010:WorkflowViewState.IdRef="If_4">
+                      <If.Then>
+                        <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                          <ui:OutputDataTable DataTable="[dT_obligatory_emptyFields]" DisplayName="Output Data Table from dT" sap2010:WorkflowViewState.IdRef="OutputDataTable_2" Text="[textSendToUser]" />
+                          <ui:SendMail Bcc="{x:Null}" Cc="{x:Null}" From="{x:Null}" MailMessage="{x:Null}" TimeoutMS="{x:Null}" Body="[textSendToUser]" DisplayName="Send SMTP Mail Message" Email="[MailUsename]" EnableSSL="True" sap2010:WorkflowViewState.IdRef="SendMail_1" IsBodyHtml="False" Name="HR Manager Robot" Password="[MailPassword]" Port="587" SecureConnection="Auto" Server="smtp.gmail.com" Subject="Hire Form, not all obligatory fields are fill in" To="[recipientEmail.ToString]">
+                            <ui:SendMail.Files>
+                              <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4">
+                                <InArgument x:TypeArguments="x:String">[filePath]</InArgument>
+                              </scg:List>
+                            </ui:SendMail.Files>
+                          </ui:SendMail>
+                          <Sequence DisplayName="Sequence for change Status in the excel and in the RecipientDT, DT_WithAllRecipients" sap2010:WorkflowViewState.IdRef="Sequence_23">
+                            <Assign DisplayName="Assign testVariable" sap2010:WorkflowViewState.IdRef="Assign_14">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[indexOfAColumn]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[Convert.ToChar(65+DT_WithAllRecipients.Columns.IndexOf("Status") ).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="Assign testVariableIndex" sap2010:WorkflowViewState.IdRef="Assign_15">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[indexOfARow]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[(DT_WithAllRecipients.Rows.IndexOf(DT_WithAllRecipients.Select("Email =" + "'" + recipientEmail + "'")(0)) + 2).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <ui:WriteCell Cell="[indexOfAColumn + indexOfARow]" DisplayName="Write Cell: To the Recipient.xlsx" sap2010:WorkflowViewState.IdRef="WriteCell_1" SheetName="Sheet1" Text="Sended" WorkbookPath="[RecipientsFilePath]" />
+                            <Assign DisplayName="Assign: To the RecipientDT Status = Sender" sap2010:WorkflowViewState.IdRef="Assign_16">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:Object">[row.Item("Status")]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:Object">["Sended"]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="Assign: To The DT_WithAllRecipients" sap2010:WorkflowViewState.IdRef="Assign_17">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:Object">[DT_WithAllRecipients.Rows(Convert.ToInt32(indexOfARow) - 2).Item("Status")]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:Object">["Sended"]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </Sequence>
+                          <ui:Delete ContinueOnError="{x:Null}" DisplayName="Delete file form folder &quot;Attachment&quot;" sap2010:WorkflowViewState.IdRef="Delete_1" Path="[filePath]" />
+                        </Sequence>
+                      </If.Then>
+                      <If.Else>
+                        <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                          <Assign DisplayName="Assign: FileFulfilled = true1" sap2010:WorkflowViewState.IdRef="Assign_10">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:Boolean">[FileFulfilled]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                          <Sequence DisplayName="Sequence for change Status in the excel and in the RecipientDT, DT_WithAllRecipients" sap2010:WorkflowViewState.IdRef="Sequence_24">
+                            <Assign DisplayName="Assign testVariable" sap2010:WorkflowViewState.IdRef="Assign_18">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[indexOfAColumn]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[Convert.ToChar(65+DT_WithAllRecipients.Columns.IndexOf("Status") ).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="Assign testVariableIndex" sap2010:WorkflowViewState.IdRef="Assign_19">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[indexOfARow]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[(DT_WithAllRecipients.Rows.IndexOf(DT_WithAllRecipients.Select("Email =" + "'" + recipientEmail + "'")(0)) + 2).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <ui:WriteCell Cell="[indexOfAColumn + indexOfARow]" DisplayName="Write Cell: To the Recipient.xlsx" sap2010:WorkflowViewState.IdRef="WriteCell_2" SheetName="Sheet1" Text="Readed" WorkbookPath="[RecipientsFilePath]" />
+                            <Assign DisplayName="Assign: To the RecipientDT Status = Sender" sap2010:WorkflowViewState.IdRef="Assign_20">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:Object">[row.Item("Status")]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:Object">["Readed"]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="Assign: To The DT_WithAllRecipients" sap2010:WorkflowViewState.IdRef="Assign_21">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:Object">[DT_WithAllRecipients.Rows(Convert.ToInt32(indexOfARow) - 2).Item("Status")]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:Object">["Readed"]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </Sequence>
+                        </Sequence>
+                      </If.Else>
+                    </If>
+                  </Sequence>
+                </If.Then>
+              </If>
+              <If Condition="[status = &quot;Readed&quot;]" DisplayName="If: Status is &quot;Readed&quot;" sap2010:WorkflowViewState.IdRef="If_7">
+                <If.Then>
+                  <Assign DisplayName="Assign: FileFulfilled = true2" sap2010:WorkflowViewState.IdRef="Assign_22">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Boolean">[FileFulfilled]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </If.Then>
+              </If>
+            </Sequence>
+          </ActivityAction>
+        </ui:ForEachRow.Body>
+      </ui:ForEachRow>
+    </Sequence>
+    <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;End: &quot; + compName]" />
+    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="LogMessage_1" sap:VirtualizedContainerService.HintSize="1045.33333333333,94.6666666666667" />
+      <sap2010:ViewStateData Id="Comment_1" sap:VirtualizedContainerService.HintSize="1045.33333333333,113.333333333333" />
+      <sap2010:ViewStateData Id="Assign_9" sap:VirtualizedContainerService.HintSize="942.666666666667,62" />
+      <sap2010:ViewStateData Id="GetRowItem_3" sap:VirtualizedContainerService.HintSize="890,64" />
+      <sap2010:ViewStateData Id="GetRowItem_4" sap:VirtualizedContainerService.HintSize="742,64" />
+      <sap2010:ViewStateData Id="WriteLine_1" sap:VirtualizedContainerService.HintSize="742,62.6666666666667" />
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="464,62" />
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="464,62" />
+      <sap2010:ViewStateData Id="PathExists_2" sap:VirtualizedContainerService.HintSize="464,90.6666666666667" />
+      <sap2010:ViewStateData Id="Throw_2" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="If_8" sap:VirtualizedContainerService.HintSize="464,214" />
+      <sap2010:ViewStateData Id="Sequence_27" sap:VirtualizedContainerService.HintSize="486,672.666666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="SendMail_4" sap:VirtualizedContainerService.HintSize="314,149.333333333333">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_23" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="Assign_24" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="WriteLine_14" sap:VirtualizedContainerService.HintSize="314,62.6666666666667" />
+      <sap2010:ViewStateData Id="WriteCell_3" sap:VirtualizedContainerService.HintSize="314,114.666666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_25" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="Assign_26" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="Continue_1" sap:VirtualizedContainerService.HintSize="314,22" />
+      <sap2010:ViewStateData Id="Sequence_25" sap:VirtualizedContainerService.HintSize="336,1000.66666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_26" sap:VirtualizedContainerService.HintSize="358,1124.66666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Catch`1_1" sap:VirtualizedContainerService.HintSize="490.666666666667,1195.33333333333">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="TryCatch_1" sap:VirtualizedContainerService.HintSize="742,52.6666666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="BuildDataTable_1" sap:VirtualizedContainerService.HintSize="742,58.6666666666667" />
+      <sap2010:ViewStateData Id="WriteLine_6" sap:VirtualizedContainerService.HintSize="742,62.6666666666667" />
+      <sap2010:ViewStateData Id="ReadRange_1" sap:VirtualizedContainerService.HintSize="464,86.6666666666667" />
+      <sap2010:ViewStateData Id="Throw_3" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="If_5" sap:VirtualizedContainerService.HintSize="464,214" />
+      <sap2010:ViewStateData Id="Sequence_29" sap:VirtualizedContainerService.HintSize="486,464.666666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Delete_2" sap:VirtualizedContainerService.HintSize="314,22" />
+      <sap2010:ViewStateData Id="SendMail_5" sap:VirtualizedContainerService.HintSize="314,149.333333333333">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_27" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="Assign_28" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="WriteCell_4" sap:VirtualizedContainerService.HintSize="314,114.666666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_29" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="Assign_30" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="Continue_2" sap:VirtualizedContainerService.HintSize="314,22" />
+      <sap2010:ViewStateData Id="Sequence_28" sap:VirtualizedContainerService.HintSize="336,960">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Catch`1_2" sap:VirtualizedContainerService.HintSize="490.666666666667,1030.66666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="TryCatch_2" sap:VirtualizedContainerService.HintSize="742,1815.33333333333">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="GetRowItem_1" sap:VirtualizedContainerService.HintSize="464,64" />
+      <sap2010:ViewStateData Id="Assign_5" sap:VirtualizedContainerService.HintSize="464,62" />
+      <sap2010:ViewStateData Id="AddDataRow_2" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Sequence_7" sap:VirtualizedContainerService.HintSize="222,146">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_2" sap:VirtualizedContainerService.HintSize="464,296.666666666667" />
+      <sap2010:ViewStateData Id="Sequence_5" sap:VirtualizedContainerService.HintSize="486,626.666666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEachRow_1" sap:VirtualizedContainerService.HintSize="742,779.333333333333">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelReadRange_1" sap:VirtualizedContainerService.HintSize="314,58.6666666666667" />
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="336,182.666666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelApplicationScope_1" sap:VirtualizedContainerService.HintSize="414,291.333333333333" />
+      <sap2010:ViewStateData Id="Sequence_30" sap:VirtualizedContainerService.HintSize="436,415.333333333333">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="CommentOut_1" sap:VirtualizedContainerService.HintSize="742,52.6666666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="OutputDataTable_2" sap:VirtualizedContainerService.HintSize="336,22" />
+      <sap2010:ViewStateData Id="SendMail_1" sap:VirtualizedContainerService.HintSize="336,149.333333333333" />
+      <sap2010:ViewStateData Id="Assign_14" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="Assign_15" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="WriteCell_1" sap:VirtualizedContainerService.HintSize="314,114.666666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_16" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="Assign_17" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="Sequence_23" sap:VirtualizedContainerService.HintSize="336,646.666666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Delete_1" sap:VirtualizedContainerService.HintSize="336,22" />
+      <sap2010:ViewStateData Id="Sequence_8" sap:VirtualizedContainerService.HintSize="358,1084">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_10" sap:VirtualizedContainerService.HintSize="336,62" />
+      <sap2010:ViewStateData Id="Assign_18" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="Assign_19" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="WriteCell_2" sap:VirtualizedContainerService.HintSize="314,114.666666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_20" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="Assign_21" sap:VirtualizedContainerService.HintSize="314,62" />
+      <sap2010:ViewStateData Id="Sequence_24" sap:VirtualizedContainerService.HintSize="336,646.666666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_15" sap:VirtualizedContainerService.HintSize="358,872.666666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_4" sap:VirtualizedContainerService.HintSize="742,1238" />
+      <sap2010:ViewStateData Id="Sequence_21" sap:VirtualizedContainerService.HintSize="764,4630">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_6" sap:VirtualizedContainerService.HintSize="890,4784" />
+      <sap2010:ViewStateData Id="Assign_22" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="If_7" sap:VirtualizedContainerService.HintSize="890,216" />
+      <sap2010:ViewStateData Id="Sequence_20" sap:VirtualizedContainerService.HintSize="912,5268">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEachRow_3" sap:VirtualizedContainerService.HintSize="942.666666666667,5420.66666666667" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="1045.33333333333,5646.66666666667">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LogMessage_2" sap:VirtualizedContainerService.HintSize="1045.33333333333,94.6666666666667" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="1067.33333333333,6193.33333333333">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ReadFileUserSendToUs_1" sap:VirtualizedContainerService.HintSize="1107.33333333333,6608">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="ShouldExpandAll">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>
